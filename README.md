@@ -2,5 +2,5 @@
 JSU javascript utility library
 ===
 
-simple javascript utility library built on underscore
+simple javascript utility library (will be built on underscore)
 
