@@ -28,6 +28,25 @@ map = (f, obj) ->
     o[i] = f(o[i])
   o
 
+syncLoop = (options, i, cb) ->
+  list = options.list
+  condition = options.condition
+  compute = options.compute
+  params = options.params
+  res = options.res
+
+  if i < list.length
+    item = list[i]
+    if condition(item, params)
+      compute item, params, (r) =>
+        res.push r
+        syncLoop options, i + 1, cb
+    else
+      syncLoop options, i + 1, cb
+  else
+    cb null, res
+
+
 module.exports =
   hash: hash
   padNumToString: padNumToString
