@@ -1,6 +1,6 @@
 {
   "name": "jsu",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "random grab bag of javascript utilities",
   "main": "jsu.js",
   "scripts": {

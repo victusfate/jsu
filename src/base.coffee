@@ -22,7 +22,7 @@ toNum = (obj) ->
 copyObject = (obj) ->
   JSON.parse JSON.stringify(obj)
 
-map = (f, obj) ->
+objMap = (f, obj) ->
   o = copyObject(obj)
   for i of o
     o[i] = f(o[i])
@@ -53,4 +53,5 @@ module.exports =
   keys: keys
   toNum: toNum
   copyObject: copyObject
-  map: map
+  objMap: objMap
+  syncLoop: syncLoop
