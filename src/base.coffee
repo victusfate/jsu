@@ -30,23 +30,15 @@ objMap = (f, obj) ->
     o[i] = f(obj[i])
   o
 
-syncLoop = (options, i, cb) ->
+syncLoop = (options, i) ->
   list = options.list
   condition = options.condition
   compute = options.compute
-  params = options.params
-  res = options.res
+  p = options.params
 
-  if i < list.length
-    item = list[i]
-    if condition(item, params)
-      compute item, params, (r) =>
-        res.push r
-        syncLoop options, i + 1, cb
-    else
-      syncLoop options, i + 1, cb
-  else
-    cb null, res
+  newRes = for i in list when condition(i,p)
+    compute(i,p)
+
 
 
 module.exports =
