@@ -1,4 +1,5 @@
-crypto = require("crypto")
+crypto  = require('crypto')
+_       = require('underscore')
 
 hash = (obj) ->
   oHash = undefined
@@ -11,10 +12,11 @@ padNumToString = (num, padString) ->
   p.slice(0, p.length - num.toString().length) + num.toString()
 
 keys = (obj) ->
-  keys = []
-  for i of obj
-    keys.push i  if obj.hasOwnProperty(i)
-  keys
+  # keys = []
+  # for i of obj
+  #   keys.push i  if obj.hasOwnProperty(i)
+  # keys
+  _.keys(obj)
 
 toNum = (obj) ->
   parseInt obj, 10
@@ -23,9 +25,9 @@ copyObject = (obj) ->
   JSON.parse JSON.stringify(obj)
 
 objMap = (f, obj) ->
-  o = copyObject(obj)
-  for i of o
-    o[i] = f(o[i])
+  o = {}
+  for i of obj
+    o[i] = f(obj[i])
   o
 
 syncLoop = (options, i, cb) ->
