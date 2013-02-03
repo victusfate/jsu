@@ -1,55 +1,89 @@
-jsu = require('../lib/base')
-_	= require('underscore')
+jsu = require('../jsu')
+_	  = require('underscore')
+log = console.log
+
+
+# syncLoop testing
 
 cond = (i,p) -> 
   i >= p.start and i <= p.end
 
-comp = (i,p,cb) ->
-  cb(i * p.scale)
+comp2 = (i,p) -> i * p.scale
+
+dim = 100000
 
 p = 
   start: 0
-  end: 9
+  end: dim * 0.8
   scale: 3
 
-list = [0...1000000]
+list = [0...dim]
 opt = 
   list: list
   condition: cond
-  compute: comp
+  compute: comp2
   params: p
   res: []
 
 
-nTrials = 1000
+nTrials = 100
 
 t1 = Date.now()
 
-# j=0
-# while (j < nTrials)
-#   opt.res = [];
-#   jsu.syncLoop opt, 0, (err) ->
-#     if (err)
-#       console.log err
-#       throw err
-#     else
-#       # console.log 'all done, results ', opt.res
-#   j++
-
-comp2 = (i,p) -> i * p.scale
-console.log('t1',Date.now()-t1)
-
-t2 = Date.now()
-
-# comp(i,p,null) for i in [0..10] when cond(i,p)
 j=0
 while (j < nTrials)
-  newRes = for i in list when cond(i,p)
-    comp2(i,p)
-  # newRes = [0...10].map (i) ->
-  #   comp2(i,p) if cond(i,p)
-  # console.log 'all done, results ', newRes
+  newRes = jsu.syncLoop(opt)
   j++
-console.log('t2',Date.now()-t2)
 
-  
+log 't1 syncLoop', Date.now()-t1
+
+
+# objMap
+
+obj = {}
+for i in list
+  obj[i] = list[i]
+
+dub = (o) -> 2*o
+dubr = (m,v,k,o) -> 
+  m[k] = 2*v
+  m
+
+t1 = Date.now()
+
+j=0
+while (j < nTrials)
+  newRes = jsu.objMap( dub, obj)
+  j++
+
+log 't2 objMap on object', Date.now() - t1
+
+
+t1 = Date.now()
+
+j=0
+while (j < nTrials)
+  newRes = jsu.objMap( dub, list)
+  j++
+
+log 't3 objMap on array', Date.now() - t1
+
+
+t1 = Date.now()
+
+j=0
+while (j < nTrials)
+  newRes = _(obj).reduce dubr, {}
+  j++
+
+log 't4 _.reduce on obj', Date.now() - t1
+
+t1 = Date.now()
+
+j=0
+while (j < nTrials)
+  newRes = _(list).map dub
+  j++
+
+log 't5 _.map on array', Date.now() - t1
+

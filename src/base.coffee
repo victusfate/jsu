@@ -30,7 +30,7 @@ objMap = (f, obj) ->
     o[i] = f(obj[i])
   o
 
-syncLoop = (options, i) ->
+syncLoop = (options) ->
   list = options.list
   condition = options.condition
   compute = options.compute
@@ -39,6 +39,10 @@ syncLoop = (options, i) ->
   newRes = for i in list when condition(i,p)
     compute(i,p)
 
+# extend = (obj) ->
+#   d = {}
+#   d[p] = obj[p] for (p in obj)
+#   d
 
 
 module.exports =
