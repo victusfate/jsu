@@ -6,13 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
+  "repository": "https://github.com/victusfate/jsu",
   "keywords": [
     "javascript",
     "coffeescript",
     "util"
   ],
-  "repository": "https://github.com/victusfate/jsu",
   "scripts": {
       "pretest": "cake build",
       "prepublish": "cake build"
